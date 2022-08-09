@@ -8,13 +8,10 @@ use App\Models\Employee;
 class EmployeeController extends Controller
 {
     function index() {
-        error_log("Index function is reached");
         return Employee::all();
     }
     
     function add(Request $addedDetails) {
-        error_log("Add function is reached");
-
         $characters = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 2);
         $numbers = mt_rand(1000, 9999);
         $user_id = $characters.$numbers;
@@ -37,7 +34,6 @@ class EmployeeController extends Controller
         foreach ($details["skills"] as $skill) {
             $count++;
             $val = strval($count);
-            error_log($count);
             $array2 = $array2 + [
                 "skill_$val" => $skill["skill"],
                 "years_of_exp_$val" => $skill["yrsExp"],
@@ -54,8 +50,6 @@ class EmployeeController extends Controller
     }
 
     function edit(Request $editDetails) {
-        error_log("Edit function is reached!");
-
         $array1 = [
             "first_name" => $editDetails->firstName_edit,
             "last_name" => $editDetails->lastName_edit,
@@ -73,7 +67,6 @@ class EmployeeController extends Controller
         foreach ($updateDetails["skills_edit"] as $skill) {
             $count++;
             $val = strval($count);
-            error_log($count);
             $array2 = $array2 + [
                 "skill_$val" => $skill["skill"],
                 "years_of_exp_$val" => $skill["yrsExp"],
@@ -90,7 +83,6 @@ class EmployeeController extends Controller
     }
 
     function delete(Request $deleteDetails) {
-        error_log("Delete function is reached!");
         $dbRowsDeleted = Employee::where("employee_id", "=", $deleteDetails->employeeID)->delete();
         if($dbRowsDeleted == 1) {
             return Employee::all();
